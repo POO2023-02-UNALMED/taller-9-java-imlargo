@@ -12,13 +12,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
-public class Calculator extends VBox implements EventHandler<***>{
+public class Calculator extends VBox implements EventHandler<ActionEvent>{
 	
 	String number1 = "";
 	String number2 = "";
 	String operator;
-	Text displayText;
-	
+	Text displayText; 
+
 	public Calculator(){
 		super(10);
 		this.displayText = new Text();
@@ -122,17 +122,56 @@ public class Calculator extends VBox implements EventHandler<***>{
 		this.getChildren().addAll(sp, gd);
 	}
 
+
+	String expresion = "";
+
 	@Override
 	public void handle(ActionEvent event) {
 		
 		Button b = (Button) event.getSource();
 		String value = b.getText();
-		
-		***
-		***
-		***
-		
-	}
-	
 
+		if ("1234567890".contains(value)) {
+			displayText.setText(value);
+		} else if ("/*-+".contains(value)) {
+			operator = value;
+			number1 = displayText.getText();
+			displayText.setText("");
+		} else if (value == "=") {
+			number2 = displayText.getText();
+			displayText.setText(calcular(number1, number2, operator).toString());
+		} else if (value == "C") {
+			operator = null;
+			number1 = "";
+			number2 = "";
+			displayText.setText("");
+		}
+	}
+
+	public Float calcular(String number1, String number2, String op) {
+		int num1 = Integer.parseInt(number1);			
+		int num2 = Integer.parseInt(number2);
+		int resultado;
+
+		switch (op) {
+			case "+":
+			resultado = num1 + num2;
+				break;
+
+			case "-":
+			resultado = num1 - num2;
+				break;
+
+			case "*":
+			resultado = num1 * num2;
+				break;
+
+			case "/":
+			resultado = num1 / num2;
+				break;
+		}
+
+		return resultado;
+
+	}
 }
